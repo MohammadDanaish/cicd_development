@@ -1,0 +1,47 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        type: choice
+        options: [uat, production]
+      api_tag:
+        required: true
+        description: 'API image tag (commit SHA or version e.g. v1.3.0)'
+      web_tag:
+        required: true
+        description: 'Web image tag (commit SHA or version e.g. v1.3.0)'
+
+jobs:
+  deploy-uat:
+    if: github.event.inputs.environment == 'uat'
+    uses: nama-water/cicd_development/.github/workflows/template-deploy.yml@main
+    with:
+      environment: uat
+      api_tag: ${{ github.event.inputs.api_tag }}
+      web_tag: ${{ github.event.inputs.web_tag }}
+      app_hosts: ${{ vars.UAT_APP_HOST }}
+      db_host: ${{ vars.UAT_DB_HOST }}
+    secrets: inherit
+
+  dast-uat:
+    needs: deploy-uat
+    if: github.event.inputs.environment == 'uat'
+    uses: nama-water/cicd_development/.github/workflows/template-dast.yml@main
+    with:
+      target_url: https://uat.permit.nama-water.om
+    secrets: inherit
+
+  deploy-prod:
+    if: github.event.inputs.environment == 'production'
+    uses: nama-water/cicd_development/.github/workflows/template-deploy.yml@main
+    with:
+      environment: production
+      api_tag: ${{ github.event.inputs.api_tag }}
+      web_tag: ${{ github.event.inputs.web_tag }}
+      app_hosts: '${{ vars.PROD_APP_HOST_1 }} ${{ vars.PROD_APP_HOST_2 }}'
+      db_host: ${{ vars.PROD_DB_HOST }}
+    secrets: inherit

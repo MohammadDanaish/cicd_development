@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+    branches: ['feature/**', 'fix/**']
+  workflow_dispatch:
+    inputs:
+      release_to_stores:
+        type: boolean
+        description: 'Publish to Play Store and App Store'
+        default: false
+
+jobs:
+  ci:
+    uses: nama-water/cicd_development/.github/workflows/template-ci-flutter.yml@main
+    with:
+      flutter_version: '3.x'
+      release_to_stores: ${{ github.event.inputs.release_to_stores == 'true' }}
+    secrets: inherit

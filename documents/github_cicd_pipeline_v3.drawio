@@ -1,0 +1,253 @@
+<mxfile host="Electron">
+  <diagram id="nama-cicd-v3" name="GitHub CI/CD - FIXED v3">
+    <mxGraphModel dx="1884" dy="875" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3000" pageHeight="2450" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="t1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=middle;strokeWidth=3;fontStyle=1;fontFamily=Helvetica;fontSize=13;fontSize=15;fillColor=#0D7377;strokeColor=#00574B;fontColor=#FFFFFF;" value="GitHub CI/CD Pipeline — Nama Water Services TIPMS  |  v3.0 FIXED  |  All 17 issues resolved" vertex="1">
+          <mxGeometry height="60" width="2980" x="10" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="dev_c" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=3;fontStyle=1;fontFamily=Helvetica;fontSize=13;fontSize=13;fillColor=#1E2D40;strokeColor=#0D7377;fontColor=#FFFFFF;" value="👨‍💻  DEVELOPERS" vertex="1">
+          <mxGeometry height="300" width="350" x="10" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="dev_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#E8F5E9;strokeColor=#388E3C;fontColor=#1B5E20;" value="&lt;b&gt;💻 Developer Laptop&lt;/b&gt;&lt;br&gt;&lt;br&gt;Conventional Commits format:&lt;br&gt;&lt;i&gt;feat(permits): add renewal UI&lt;/i&gt;&lt;br&gt;&lt;i&gt;fix(lab): correct SLA calc&lt;/i&gt;&lt;br&gt;&lt;br&gt;• feature/* branches, max 2 days&lt;br&gt;• Never push directly to main&lt;br&gt;• PR required for every merge" vertex="1">
+          <mxGeometry height="250" width="330" x="20" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="gh_c" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=3;fontStyle=1;fontFamily=Helvetica;fontSize=13;fontSize=13;fillColor=#1E2D40;strokeColor=#0D7377;fontColor=#FFFFFF;" value="☁️  GITHUB.COM" vertex="1">
+          <mxGeometry height="300" width="2620" x="370" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="repo" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#24292e;strokeColor=#0D7377;fontColor=#FFFFFF;strokeWidth=3;" value="&lt;b&gt;📁 Repository (nama-tipms)&lt;/b&gt;&lt;br&gt;&lt;b&gt;Trunk-Based Development ✅&lt;/b&gt;&lt;br&gt;&lt;br&gt;feature/* → &lt;b&gt;main&lt;/b&gt; → v-tag&lt;br&gt;&lt;br&gt;❌ No develop/staging branches&lt;br&gt;✅ 2 approvals to merge to main&lt;br&gt;✅ CI must pass before merge&lt;br&gt;✅ Conventional Commits enforced" vertex="1">
+          <mxGeometry height="255" width="480" x="380" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="ghcr" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#24292e;strokeColor=#0D7377;fontColor=#FFFFFF;strokeWidth=3;" value="&lt;b&gt;📦 GHCR — 2 Separate Images ✅&lt;/b&gt;&lt;br&gt;&lt;i&gt;Fixed: C1 + C2&lt;/i&gt;&lt;br&gt;&lt;br&gt;🔵 &lt;b&gt;nama-permit-api:{ver}&lt;/b&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;FROM node:20.11-alpine3.19&lt;br&gt;&amp;nbsp;&amp;nbsp;API only (no frontend)&lt;br&gt;&lt;br&gt;🟢 &lt;b&gt;nama-permit-web:{ver}&lt;/b&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;FROM nginx:1.27-alpine&lt;br&gt;&amp;nbsp;&amp;nbsp;Static dist/ files only" vertex="1">
+          <mxGeometry height="255" width="490" x="870" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="secrets" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#24292e;strokeColor=#0D7377;fontColor=#FFFFFF;strokeWidth=3;" value="&lt;b&gt;🔐 GitHub Secrets&lt;/b&gt;&lt;br&gt;&lt;br&gt;• DB_PASSWORD&lt;br&gt;• JWT_SECRET_KEY&lt;br&gt;• FCM_SERVER_KEY&lt;br&gt;• APNS_AUTH_KEY&lt;br&gt;• ANDROID_KEYSTORE (file)&lt;br&gt;• CODEMAGIC_API_TOKEN&lt;br&gt;• SRV_STAGING_SSH_KEY&lt;br&gt;• SRV_PROD_SSH_KEY" vertex="1">
+          <mxGeometry height="255" width="370" x="1370" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="gh_envs" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#24292e;strokeColor=#0D7377;fontColor=#FFFFFF;strokeWidth=3;" value="&lt;b&gt;🌍 GitHub Environments&lt;/b&gt;&lt;br&gt;&lt;br&gt;📋 &lt;b&gt;staging&lt;/b&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;• Auto on merge to main&lt;br&gt;&amp;nbsp;&amp;nbsp;• concurrency group (no parallel deploys) &lt;i&gt;★G1&lt;/i&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;• No approval gate&lt;br&gt;&lt;br&gt;🔒 &lt;b&gt;production&lt;/b&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;• workflow_dispatch ONLY &lt;i&gt;★G4&lt;/i&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;• 2 internal reviewers required &lt;i&gt;★G5&lt;/i&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;• Version tag v*.*.* required&lt;br&gt;&amp;nbsp;&amp;nbsp;• Window: Sunday 03:00–06:00 OST" vertex="1">
+          <mxGeometry height="255" width="1230" x="1750" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="pipe_c" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=3;fontStyle=1;fontFamily=Helvetica;fontSize=13;fontSize=13;fillColor=#1E2D40;strokeColor=#0D7377;fontColor=#FFFFFF;" value="⚙️  GITHUB ACTIONS — CI/CD PIPELINE  (.github/workflows/)" vertex="1">
+          <mxGeometry height="765" width="2980" x="10" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="trigger_bar" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#E8F5E9;strokeColor=#388E3C;fontColor=#1B5E20;" value="⚡ Triggered by: Push to any branch  |  Pull Request  |  git tag v*.*.*  |  workflow_dispatch (production only)" vertex="1">
+          <mxGeometry height="35" width="1480" x="20" y="432" as="geometry" />
+        </mxCell>
+        <mxCell id="cache_bar" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#FFF9C4;strokeColor=#F9A825;fontColor=#5D4037;fontSize=11;" value="🚀 actions/cache enabled: node_modules · ~/.gradle · pub-cache  &lt;i&gt;★G2&lt;/i&gt;  |  🐳 Docker BuildKit layer cache: cache-from/cache-to type=gha (base images cached per branch)  &lt;i&gt;★G6&lt;/i&gt;" vertex="1">
+          <mxGeometry height="35" width="1460" x="1510" y="432" as="geometry" />
+        </mxCell>
+        <mxCell id="s1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#E8F5E9;strokeColor=#388E3C;fontColor=#1B5E20;" value="&lt;b&gt;✅ STAGE 1 — VALIDATE&lt;/b&gt;&lt;br&gt;&lt;br&gt;• ESLint + Prettier + Stylelint&lt;br&gt;• Gitleaks (secret detection)&lt;br&gt;• npm audit (dep CVEs) &lt;i&gt;★M5&lt;/i&gt;&lt;br&gt;• &lt;b&gt;Snyk (SCA)&lt;/b&gt; — dep vuln + licence &lt;i&gt;★S1&lt;/i&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;FAIL: critical/high CVEs&lt;br&gt;&amp;nbsp;&amp;nbsp;WARN: medium (weekly review)&lt;br&gt;&lt;br&gt;Fails PR merge on any error&lt;br&gt;⏱ ~90 seconds" vertex="1">
+          <mxGeometry height="205" width="330" x="20" y="477" as="geometry" />
+        </mxCell>
+        <mxCell id="s2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#E8F5E9;strokeColor=#388E3C;fontColor=#1B5E20;" value="&lt;b&gt;✅ STAGE 2 — TEST&lt;/b&gt;&lt;br&gt;&lt;br&gt;• Vitest (Vue 3 unit tests)&lt;br&gt;• Jest (Node.js API tests)&lt;br&gt;• Coverage ≥ 70% enforced &lt;i&gt;★M4&lt;/i&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Integration Tests&lt;/b&gt; &lt;i&gt;★M2&lt;/i&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;services: postgres:16 (real DB)&lt;br&gt;&amp;nbsp;&amp;nbsp;Catches: JOINs, constraints&lt;br&gt;⏱ ~3 minutes" vertex="1">
+          <mxGeometry height="205" width="350" x="360" y="477" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#FFF3E0;strokeColor=#F57C00;fontColor=#E65100;" value="&lt;b&gt;✅ STAGE 3 — SAST&lt;/b&gt; &lt;i&gt;★M5&lt;/i&gt;&lt;br&gt;&lt;br&gt;• Semgrep / GitHub CodeQL&lt;br&gt;• SQL injection, XSS, OWASP Top 10&lt;br&gt;&lt;br&gt;FAIL: HIGH / CRITICAL findings&lt;br&gt;WARN: MEDIUM (weekly review)&lt;br&gt;⏱ ~2 minutes" vertex="1">
+          <mxGeometry height="205" width="290" x="720" y="477" as="geometry" />
+        </mxCell>
+        <mxCell id="s4h" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#E3F2FD;strokeColor=#1976D2;fontColor=#0D47A1;" value="&lt;b&gt;STAGE 4 — BUILD&lt;/b&gt;  (2 parallel jobs) &lt;i&gt;★C1, C2&lt;/i&gt;" vertex="1">
+          <mxGeometry height="30" width="380" x="1020" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="s4b" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#E3F2FD;strokeColor=#1976D2;fontColor=#0D47A1;" value="&lt;b&gt;🟢 FRONTEND IMAGE&lt;/b&gt;&lt;br&gt;npm run build → dist/ [Vite]&lt;br&gt;FROM nginx:1.27-alpine &lt;i&gt;★C2&lt;/i&gt;&lt;br&gt;COPY dist/ → nginx html root&lt;br&gt;--cache-from type=gha · --cache-to type=gha &lt;i&gt;★G6&lt;/i&gt;&lt;br&gt;→ nama-permit-web:{tag}" vertex="1">
+          <mxGeometry height="85" width="380" x="1020" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="s5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#FFF3E0;strokeColor=#F57C00;fontColor=#E65100;" value="&lt;b&gt;✅ STAGE 5 — IMAGE SCAN&lt;/b&gt; &lt;i&gt;★M5&lt;/i&gt;&lt;br&gt;&lt;br&gt;Scans both built images&lt;br&gt;&lt;b&gt;Trivy&lt;/b&gt; — OS CVEs in image layers&lt;br&gt;&lt;b&gt;Snyk container&lt;/b&gt; — app dep CVEs &lt;i&gt;★S1&lt;/i&gt;&lt;br&gt;&lt;br&gt;FAIL: CRITICAL CVEs&lt;br&gt;WARN: HIGH CVEs&lt;br&gt;&lt;i&gt;(separate from SAST + npm audit)&lt;/i&gt;&lt;br&gt;⏱ ~3 minutes" vertex="1">
+          <mxGeometry height="205" width="285" x="1440" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="s6a" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#F3E5F5;strokeColor=#7B1FA2;fontColor=#4A148C;" value="&lt;b&gt;🏷️ semantic-release&lt;/b&gt; &lt;i&gt;★M1&lt;/i&gt;&lt;br&gt;&lt;br&gt;• Reads commits since last release&lt;br&gt;• Bumps SemVer: feat→minor, fix→patch&lt;br&gt;• Creates git tag (e.g. v1.3.0)&lt;br&gt;• Generates CHANGELOG.md&lt;br&gt;• Creates GitHub Release&lt;br&gt;&lt;i&gt;main branch only&lt;/i&gt;" vertex="1">
+          <mxGeometry height="115" width="310" x="1770" y="467" as="geometry" />
+        </mxCell>
+        <mxCell id="s6b" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#F3E5F5;strokeColor=#7B1FA2;fontColor=#4A148C;" value="&lt;b&gt;📤 PUSH TO GHCR&lt;/b&gt; &lt;i&gt;★G3&lt;/i&gt;&lt;br&gt;&lt;br&gt;docker login ghcr.io&lt;br&gt;&amp;nbsp;&amp;nbsp;uses GITHUB_TOKEN ✅&lt;br&gt;Pushes: API image + WEB image&lt;br&gt;&lt;i&gt;main + version tags only&lt;/i&gt;" vertex="1">
+          <mxGeometry height="85" width="310" x="1740" y="596" as="geometry" />
+        </mxCell>
+        <mxCell id="conc" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#FCE4EC;strokeColor=#C2185B;fontColor=#880E4F;fontStyle=3;fontSize=11;" value="&lt;b&gt;concurrency:&lt;/b&gt; &lt;i&gt;★G1&lt;/i&gt;&lt;br&gt;group: deploy-${{github.ref}}&lt;br&gt;cancel-in-progress: true" vertex="1">
+          <mxGeometry height="50" width="310" x="1790" y="730" as="geometry" />
+        </mxCell>
+        <mxCell id="dec" parent="1" style="rhombus;whiteSpace=wrap;html=1;fontStyle=1;fontFamily=Helvetica;fontSize=13;fillColor=#FFF9C4;strokeColor=#F9A825;fontColor=#E65100;" value="branch?" vertex="1">
+          <mxGeometry height="80" width="110" x="2170" y="494.5" as="geometry" />
+        </mxCell>
+        <mxCell id="stg_dep" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#1E2D40;strokeColor=#0D7377;fontColor=#FFFFFF;" value="&lt;b&gt;🚀 AUTO DEPLOY — STAGING&lt;/b&gt;&lt;br&gt;&lt;br&gt;1. Save current tag → PREV &lt;i&gt;★A1&lt;/i&gt;&lt;br&gt;2. &lt;b&gt;flyway migrate&lt;/b&gt; (before app) &lt;i&gt;★A3&lt;/i&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;Aborts if migration fails&lt;br&gt;3. docker pull both images&lt;br&gt;4. docker compose up (API + WEB)&lt;br&gt;5. &lt;b&gt;Health check&lt;/b&gt; &lt;i&gt;★M3&lt;/i&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;curl --retry 5 /health → 200&lt;br&gt;&lt;br&gt;✅ Pass → notify team&lt;br&gt;❌ Fail → docker compose up $PREV&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;Auto rollback&lt;/b&gt; &lt;i&gt;★A1&lt;/i&gt;" vertex="1">
+          <mxGeometry height="280" width="430" x="1320" y="780" as="geometry" />
+        </mxCell>
+        <mxCell id="prd_trg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#FFEBEE;strokeColor=#D32F2F;fontColor=#B71C1C;fontStyle=1;" value="&lt;b&gt;🔒 workflow_dispatch only&lt;/b&gt; &lt;i&gt;★G4&lt;/i&gt;&lt;br&gt;Requires version tag v*.*.*&lt;br&gt;Never auto-triggered" vertex="1">
+          <mxGeometry height="65" width="360" x="2180" y="705" as="geometry" />
+        </mxCell>
+        <mxCell id="prd_gat" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#FFEBEE;strokeColor=#D32F2F;fontColor=#B71C1C;fontStyle=1;" value="&lt;b&gt;🔒 APPROVAL GATE&lt;/b&gt; &lt;i&gt;★G5&lt;/i&gt;&lt;br&gt;&lt;br&gt;✅ 2 internal reviewers (GitHub Env)&lt;br&gt;✅ Nama UAT via GitHub Issue&lt;br&gt;&amp;nbsp;&amp;nbsp;(no GitHub account needed)&lt;br&gt;✅ Staging stable &amp;gt;= 24 hours&lt;br&gt;✅ DB backup &amp;lt; 4 hours ago&lt;br&gt;✅ On-call engineer confirmed" vertex="1">
+          <mxGeometry height="145" width="360" x="2200" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="prd_dep" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#1E2D40;strokeColor=#0D7377;fontColor=#FFFFFF;" value="&lt;b&gt;🚀 ROLLING DEPLOY — PRODUCTION&lt;/b&gt;&lt;br&gt;&lt;br&gt;1. Remove VM-1 from load balancer&lt;br&gt;2. &lt;b&gt;flyway migrate&lt;/b&gt; &lt;i&gt;★A3&lt;/i&gt;&lt;br&gt;3. docker pull + compose up&lt;br&gt;4. &lt;b&gt;Health check&lt;/b&gt; → re-add VM-1 &lt;i&gt;★M3&lt;/i&gt;&lt;br&gt;5. Remove VM-2, repeat steps 2–4&lt;br&gt;6. Both VMs healthy ✅&lt;br&gt;7. Watch Grafana dashboards 30 min&lt;br&gt;&lt;br&gt;↩ Rollback: restart prev image &lt;i&gt;★A1&lt;/i&gt;&lt;br&gt;⏱ ~15 min | Zero downtime" vertex="1">
+          <mxGeometry height="220" width="360" x="1850" y="910" as="geometry" />
+        </mxCell>
+        <mxCell id="inf_c" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=3;fontStyle=1;fontFamily=Helvetica;fontSize=13;fontSize=13;fillColor=#1E2D40;strokeColor=#0D7377;fontColor=#FFFFFF;" value="🇴🇲  OMANTEL / OTECH CLOUD — MUSCAT, OMAN" vertex="1">
+          <mxGeometry height="440" width="2980" x="10" y="1165" as="geometry" />
+        </mxCell>
+        <mxCell id="vpn_bar" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#37474F;strokeColor=#263238;fontColor=#ECEFF1;" value="🔒 VPN Gateway — sole SSH entry point. All access to App / DB VMs goes through VPN." vertex="1">
+          <mxGeometry height="30" width="560" x="20" y="1205" as="geometry" />
+        </mxCell>
+        <mxCell id="runner_vm" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#ECEFF1;strokeColor=#607D8B;fontColor=#263238;" value="&lt;b&gt;⚡ Dedicated Runner VM&lt;/b&gt; &lt;i&gt;★A2&lt;/i&gt;&lt;br&gt;4 CPU / 8 GB / 100 GB SSD&lt;br&gt;&lt;br&gt;GitHub Actions Self-Hosted Runner&lt;br&gt;• Polls GitHub for jobs (outbound)&lt;br&gt;• Docker + SSH + Ansible + Flyway CLI&lt;br&gt;• Separate from Monitoring VM ✅&lt;br&gt;• No resource contention" vertex="1">
+          <mxGeometry height="185" width="450" x="20" y="1245" as="geometry" />
+        </mxCell>
+        <mxCell id="mon_vm" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#ECEFF1;strokeColor=#607D8B;fontColor=#263238;" value="&lt;b&gt;📊 Monitoring VM&lt;/b&gt;  2 CPU / 4 GB&lt;br&gt;&lt;br&gt;• Prometheus + Grafana&lt;br&gt;• Grafana Loki ← Promtail (app logs) &lt;i&gt;★L1&lt;/i&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;Retention: 30 days&lt;br&gt;• Alertmanager → WhatsApp / PagerDuty&lt;br&gt;• Uptime Kuma (external checks)&lt;br&gt;&lt;br&gt;CI runner removed &lt;i&gt;★A2&lt;/i&gt;" vertex="1">
+          <mxGeometry height="185" width="370" x="480" y="1245" as="geometry" />
+        </mxCell>
+        <mxCell id="stg_c" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=3;fontStyle=1;fontFamily=Helvetica;fontSize=13;fontSize=13;fillColor=#1E2D40;strokeColor=#0D7377;fontColor=#FFFFFF;" value="🧪  STAGING — staging.permit.nama-water.om" vertex="1">
+          <mxGeometry height="410" width="680" x="860" y="1190" as="geometry" />
+        </mxCell>
+        <mxCell id="stg_app" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#ECEFF1;strokeColor=#607D8B;fontColor=#263238;" value="&lt;b&gt;🖥️ App VM&lt;/b&gt;  2 CPU / 4 GB / 50 GB&lt;br&gt;&lt;br&gt;• nginx (reverse proxy)&lt;br&gt;• nama-permit-api container&lt;br&gt;• nama-permit-web container&lt;br&gt;• PgBouncer container&lt;br&gt;• &lt;b&gt;Promtail&lt;/b&gt; — scrapes Docker JSON logs &lt;i&gt;★L1&lt;/i&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;→ ships to Loki on Monitoring VM&lt;br&gt;&amp;nbsp;&amp;nbsp;App logs: structured JSON (pino)&lt;br&gt;&lt;br&gt;Single VM — fine for UAT" vertex="1">
+          <mxGeometry height="185" width="310" x="870" y="1210" as="geometry" />
+        </mxCell>
+        <mxCell id="stg_db" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#ECEFF1;strokeColor=#607D8B;fontColor=#263238;" value="&lt;b&gt;🗄️ DB VM&lt;/b&gt;  PostgreSQL 16&lt;br&gt;2 CPU / 8 GB / 150 GB&lt;br&gt;&lt;br&gt;• Flyway runs before app starts&lt;br&gt;• Refreshed weekly with&lt;br&gt;&amp;nbsp;&amp;nbsp;anonymised production data" vertex="1">
+          <mxGeometry height="185" width="340" x="1190" y="1210" as="geometry" />
+        </mxCell>
+        <mxCell id="stg_note" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#FFF9C4;strokeColor=#F9A825;fontColor=#5D4037;fontSize=11;" value="✅ Staging mirrors Production config — &quot;it worked in staging&quot; = meaningful." vertex="1">
+          <mxGeometry height="30" width="660" x="870" y="1405" as="geometry" />
+        </mxCell>
+        <mxCell id="prd_c" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=3;fontStyle=1;fontFamily=Helvetica;fontSize=13;fontSize=13;fillColor=#1E2D40;strokeColor=#0D7377;fontColor=#FFFFFF;" value="🏭  PRODUCTION — permit.nama-water.om" vertex="1">
+          <mxGeometry height="440" width="1440" x="1540" y="1160" as="geometry" />
+        </mxCell>
+        <mxCell id="elb" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#ECEFF1;strokeColor=#607D8B;fontColor=#263238;" value="&lt;b&gt;⚖️ Elastic Load Balancer&lt;/b&gt;&lt;br&gt;HTTPS 443 — TLS terminated&lt;br&gt;Health check every 10 sec&lt;br&gt;Round-robin VM-1 / VM-2&lt;br&gt;Anti-DDoS" vertex="1">
+          <mxGeometry height="120" width="280" x="1560" y="1210" as="geometry" />
+        </mxCell>
+        <mxCell id="vm1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#ECEFF1;strokeColor=#607D8B;fontColor=#263238;" value="&lt;b&gt;🖥️ App VM-1&lt;/b&gt;&lt;br&gt;4 CPU / 8 GB / 100 GB&lt;br&gt;10.0.2.10&lt;br&gt;&lt;br&gt;• nginx&lt;br&gt;• API container (pino JSON logs)&lt;br&gt;• WEB container&lt;br&gt;• PgBouncer&lt;br&gt;• Promtail → Loki &lt;i&gt;★L1&lt;/i&gt;" vertex="1">
+          <mxGeometry height="175" width="280" x="1560" y="1340" as="geometry" />
+        </mxCell>
+        <mxCell id="vm2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#ECEFF1;strokeColor=#607D8B;fontColor=#263238;" value="&lt;b&gt;🖥️ App VM-2&lt;/b&gt;&lt;br&gt;4 CPU / 8 GB / 100 GB&lt;br&gt;10.0.2.11&lt;br&gt;&lt;br&gt;• nginx&lt;br&gt;• API container (pino JSON logs)&lt;br&gt;• WEB container&lt;br&gt;• PgBouncer&lt;br&gt;• Promtail → Loki &lt;i&gt;★L1&lt;/i&gt;" vertex="1">
+          <mxGeometry height="175" width="280" x="1850" y="1340" as="geometry" />
+        </mxCell>
+        <mxCell id="roll_note" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#FFF9C4;strokeColor=#F9A825;fontColor=#5D4037;fontSize=11;" value="&lt;b&gt;🔄 Rolling Deploy&lt;/b&gt;&lt;br&gt;VM-1 updated → health check ✅&lt;br&gt;VM-2 updated → health check ✅&lt;br&gt;Zero downtime throughout" vertex="1">
+          <mxGeometry height="120" width="280" x="1850" y="1210" as="geometry" />
+        </mxCell>
+        <mxCell id="prd_db" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#ECEFF1;strokeColor=#607D8B;fontColor=#263238;" value="&lt;b&gt;🗄️ DB VM (Primary)&lt;/b&gt;&lt;br&gt;PostgreSQL 16&lt;br&gt;4 CPU / 16 GB / 200 GB NVMe&lt;br&gt;10.0.3.5&lt;br&gt;&lt;br&gt;• Flyway runs each rolling step&lt;br&gt;• Continuous WAL → OBS&lt;br&gt;• Daily full backup 01:30 GST&lt;br&gt;• PITR: any minute in 30 days" vertex="1">
+          <mxGeometry height="295" width="290" x="2140" y="1210" as="geometry" />
+        </mxCell>
+        <mxCell id="obs" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#ECEFF1;strokeColor=#607D8B;fontColor=#263238;" value="&lt;b&gt;☁️ OBS Backup&lt;/b&gt;&lt;br&gt;&lt;br&gt;DB backups&lt;br&gt;Photos + PDFs&lt;br&gt;&lt;br&gt;Cross-DC replication&lt;br&gt;Omantel SDC (20 km)" vertex="1">
+          <mxGeometry height="175" width="270" x="2440" y="1210" as="geometry" />
+        </mxCell>
+        <mxCell id="mob_c" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=3;fontStyle=1;fontFamily=Helvetica;fontSize=13;fontSize=13;fillColor=#1E2D40;strokeColor=#0D7377;fontColor=#FFFFFF;" value="📱  MOBILE APP PIPELINE  (.github/workflows/mobile-build.yml)" vertex="1">
+          <mxGeometry height="360" width="2980" x="10" y="1615" as="geometry" />
+        </mxCell>
+        <mxCell id="m1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#E8F5E9;strokeColor=#388E3C;fontColor=#1B5E20;" value="&lt;b&gt;✅ LINT + TYPE&lt;/b&gt;&lt;br&gt;&lt;br&gt;• flutter analyze&lt;br&gt;• tsc --noEmit&lt;br&gt;⏱ ~1 min" vertex="1">
+          <mxGeometry height="165" width="250" x="20" y="1660" as="geometry" />
+        </mxCell>
+        <mxCell id="m2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#E8F5E9;strokeColor=#388E3C;fontColor=#1B5E20;" value="&lt;b&gt;✅ UNIT TESTS&lt;/b&gt;&lt;br&gt;&lt;br&gt;• flutter test&lt;br&gt;• API transformers&lt;br&gt;• Form validators&lt;br&gt;• Nav guards&lt;br&gt;⏱ ~2 min" vertex="1">
+          <mxGeometry height="165" width="250" x="280" y="1660" as="geometry" />
+        </mxCell>
+        <mxCell id="m3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#E8EAF6;strokeColor=#3F51B5;fontColor=#1A237E;" value="&lt;b&gt;🤖 ANDROID BUILD&lt;/b&gt;&lt;br&gt;(Linux Runner)&lt;br&gt;&lt;br&gt;• flutter build appbundle&lt;br&gt;• Signing via ANDROID_&lt;br&gt;&amp;nbsp;&amp;nbsp;KEYSTORE secret&lt;br&gt;• Decoded/signed/deleted&lt;br&gt;⏱ ~8 min" vertex="1">
+          <mxGeometry height="165" width="290" x="540" y="1660" as="geometry" />
+        </mxCell>
+        <mxCell id="m4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#E8EAF6;strokeColor=#3F51B5;fontColor=#1A237E;" value="&lt;b&gt;🍎 iOS — CODEMAGIC&lt;/b&gt; &lt;i&gt;★A4&lt;/i&gt;&lt;br&gt;&lt;br&gt;curl POST api.codemagic.io/builds&lt;br&gt;&amp;nbsp;&amp;nbsp;x-auth-token: $CODEMAGIC_TOKEN&lt;br&gt;&amp;nbsp;&amp;nbsp;{ workflow: ios-release }&lt;br&gt;&lt;br&gt;poll_codemagic.sh (every 60s)&lt;br&gt;&amp;nbsp;&amp;nbsp;GitHub job FAILS if CM fails ✅&lt;br&gt;⏱ ~20 min (macOS build)" vertex="1">
+          <mxGeometry height="165" width="490" x="840" y="1660" as="geometry" />
+        </mxCell>
+        <mxCell id="m5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#E8EAF6;strokeColor=#3F51B5;fontColor=#1A237E;" value="&lt;b&gt;📲 DISTRIBUTION&lt;/b&gt;&lt;br&gt;&lt;br&gt;Android →&lt;br&gt;&amp;nbsp;&amp;nbsp;Firebase App Dist.&lt;br&gt;&lt;br&gt;iOS →&lt;br&gt;&amp;nbsp;&amp;nbsp;TestFlight&lt;br&gt;&amp;nbsp;&amp;nbsp;(via Codemagic)" vertex="1">
+          <mxGeometry height="165" width="270" x="1340" y="1660" as="geometry" />
+        </mxCell>
+        <mxCell id="m6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#FFEBEE;strokeColor=#D32F2F;fontColor=#B71C1C;fontStyle=1;" value="&lt;b&gt;🔒 MANUAL GATE&lt;/b&gt;&lt;br&gt;&lt;br&gt;2 approvals required&lt;br&gt;&lt;br&gt;Cannot roll back&lt;br&gt;store releases.&lt;br&gt;Never auto-triggered." vertex="1">
+          <mxGeometry height="165" width="230" x="1620" y="1660" as="geometry" />
+        </mxCell>
+        <mxCell id="m7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#E8EAF6;strokeColor=#3F51B5;fontColor=#1A237E;" value="&lt;b&gt;🏪 STORE RELEASE&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Android&lt;/b&gt; → Play Store&lt;br&gt;&amp;nbsp;&amp;nbsp;Fastlane / Play API&lt;br&gt;&lt;b&gt;iOS&lt;/b&gt; → App Store Connect&lt;br&gt;&amp;nbsp;&amp;nbsp;Apple review: 24–48h&lt;br&gt;&amp;nbsp;&amp;nbsp;Manual release after&lt;br&gt;Version: 1.3.0+{pipeline_id}" vertex="1">
+          <mxGeometry height="165" width="360" x="1860" y="1660" as="geometry" />
+        </mxCell>
+        <mxCell id="ext" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#ECEFF1;strokeColor=#607D8B;fontColor=#263238;" value="&lt;b&gt;📲 External Services&lt;/b&gt;&lt;br&gt;&lt;br&gt;• FCM — Android push&lt;br&gt;• APNs — iOS push&lt;br&gt;• WhatsApp Business API&lt;br&gt;• App Store / Google Play" vertex="1">
+          <mxGeometry height="165" width="440" x="2230" y="1660" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="dev_box" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#0D7377;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="repo" value="git push feature/*">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="repo" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#388E3C;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;" target="trigger_bar" value="push triggers Actions">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="s1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#388E3C;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="s2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="s2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#388E3C;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="s3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="s3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#1976D2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="s4h" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="s4a" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#1976D2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="s5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="s4b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#1976D2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="s5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="s5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#7B1FA2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="s6a" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="s6b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#7B1FA2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="dec" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="dec" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#0D7377;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;" target="stg_dep" value="main (auto)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="dec" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#D32F2F;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="prd_trg" value="tag + dispatch">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="prd_trg" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#D32F2F;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="prd_gat" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="prd_gat" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#D32F2F;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="prd_dep" value="approved ✅">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="s6b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#7B1FA2;dashed=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="ghcr" value="push images">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="s4a" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#9E9E9E;dashed=1;" target="stg_dep" value="docker pull">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="ghcr" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#9E9E9E;dashed=1;" target="prd_dep" value="docker pull">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="stg_dep" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#0D7377;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="stg_app" value="SSH + Ansible">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="prd_dep" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#D32F2F;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="elb" value="SSH rolling">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" edge="1" parent="1" source="runner_vm" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#9E9E9E;dashed=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="s1" value="polls jobs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" edge="1" parent="1" source="stg_app" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#607D8B;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="stg_db" value="queries">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e21" edge="1" parent="1" source="prd_db" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#607D8B;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="obs" value="WAL + backups">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e22" edge="1" parent="1" source="elb" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#607D8B;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="vm1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23" edge="1" parent="1" source="elb" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#607D8B;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="vm2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e24" edge="1" parent="1" source="m1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#3F51B5;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="m2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e25" edge="1" parent="1" source="m2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#3F51B5;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="m3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e26" edge="1" parent="1" source="m3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#3F51B5;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="m4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e27" edge="1" parent="1" source="m4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#3F51B5;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="m5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e28" edge="1" parent="1" source="m5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#D32F2F;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="m6" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e29" edge="1" parent="1" source="m6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#D32F2F;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="m7" value="manual">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ZKOBrshy74D2xPOmlO_7-1" edge="1" parent="1" source="ghcr" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#9E9E9E;dashed=1;" target="s4a" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1115" y="370" as="sourcePoint" />
+            <mxPoint x="1535" y="780" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s4a" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;strokeWidth=2;fontFamily=Helvetica;fontSize=13;fillColor=#E3F2FD;strokeColor=#1976D2;fontColor=#0D47A1;" value="&lt;b&gt;🔵 BACKEND IMAGE&lt;/b&gt;&lt;br&gt;FROM node:20.11-alpine3.19 &lt;i&gt;★C2&lt;/i&gt;&lt;br&gt;npm ci · non-root user&lt;br&gt;.dockerignore configured&lt;br&gt;--cache-from type=gha · --cache-to type=gha &lt;i&gt;★G6&lt;/i&gt;&lt;br&gt;→ nama-permit-api:{tag}" vertex="1">
+          <mxGeometry height="85" width="380" x="1020" y="537" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

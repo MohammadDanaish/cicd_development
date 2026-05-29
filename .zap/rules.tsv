@@ -1,0 +1,11 @@
+40018	FAIL	SQL Injection
+40012	FAIL	Cross Site Scripting (Reflected)
+40014	FAIL	Cross Site Scripting (Persistent)
+6	FAIL	Path Traversal
+7	FAIL	Remote File Inclusion
+10202	FAIL	Absence of Anti-CSRF Tokens
+90022	FAIL	Application Error Disclosure
+10015	WARN	Incomplete or No Cache-control Header Set
+10096	WARN	Timestamp Disclosure - Unix
+10010	WARN	Secure Pages Include Mixed Content
+10017	WARN	Cross-Domain JavaScript Source File Inclusion

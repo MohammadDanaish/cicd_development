@@ -1,0 +1,35 @@
+services:
+  api:
+    image: ghcr.io/nama-water/nama-tipms-api:${API_TAG}
+    restart: unless-stopped
+    env_file: .env
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:3000/health"]
+      interval: 10s
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+  web:
+    image: ghcr.io/nama-water/nama-tipms-web:${WEB_TAG}
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+
+  pgbouncer:
+    image: bitnami/pgbouncer:1.22.1
+    restart: unless-stopped
+    env_file: .env
+
+  promtail:
+    image: grafana/promtail:2.9.3
+    restart: unless-stopped
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/promtail/config.yml:/etc/promtail/config.yml:ro

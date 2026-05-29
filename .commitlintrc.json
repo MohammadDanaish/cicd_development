@@ -1,0 +1,10 @@
+{
+  "extends": ["@commitlint/config-conventional"],
+  "rules": {
+    "scope-enum": [
+      2,
+      "always",
+      ["permits", "lab", "auth", "fleet", "users", "notifications", "deps", "ci", "docs"]
+    ]
+  }
+}

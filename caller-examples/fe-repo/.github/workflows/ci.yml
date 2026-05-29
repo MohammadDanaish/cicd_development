@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: ['feature/**', 'fix/**', main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  ci:
+    uses: nama-water/cicd_development/.github/workflows/template-ci-node.yml@main
+    with:
+      image_name: nama-tipms-web
+      dockerfile: Dockerfile.web
+      run_integration_tests: false
+    secrets: inherit
+
+  release:
+    needs: ci
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    uses: nama-water/cicd_development/.github/workflows/template-release.yml@main
+    with:
+      image_name: nama-tipms-web
+    secrets: inherit
+
+  notify-on-failure:
+    needs: [ci, release]
+    if: always() && contains(needs.*.result, 'failure')
+    runs-on: ubuntu-latest
+    steps:
+      - name: WhatsApp failure alert
+        run: |
+          curl -s -X POST "https://graph.facebook.com/v18.0/${{ secrets.WHATSAPP_CHANNEL_ID }}/messages" \
+            -H "Authorization: Bearer ${{ secrets.WHATSAPP_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"messaging_product\":\"whatsapp\",\"to\":\"${{ secrets.WHATSAPP_CHANNEL_ID }}\",\"type\":\"text\",\"text\":{\"body\":\"CI Failed [FE]\nBranch: ${{ github.ref_name }}\nRun: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}}"

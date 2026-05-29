@@ -1,0 +1,138 @@
+name: Template — Deploy
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+        description: 'Target environment: dev | uat | production'
+      api_tag:
+        required: true
+        type: string
+        description: 'API image tag (commit SHA or version e.g. v1.3.0)'
+      web_tag:
+        required: true
+        type: string
+        description: 'Web image tag (commit SHA or version e.g. v1.3.0)'
+      app_hosts:
+        required: true
+        type: string
+        description: 'Space-separated VM IPs e.g. "10.0.1.10" or "10.0.1.10 10.0.1.11" for rolling prod'
+      db_host:
+        required: true
+        type: string
+        description: 'Database VM private IP'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Deploy to ${{ inputs.environment }}
+        env:
+          SSH_KEY: ${{ secrets.SRV_SSH_KEY }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+          FCM_SERVER_KEY: ${{ secrets.FCM_SERVER_KEY }}
+          API_TAG: ${{ inputs.api_tag }}
+          WEB_TAG: ${{ inputs.web_tag }}
+          DB_HOST: ${{ inputs.db_host }}
+          APP_DIR: /opt/tipms
+          REGISTRY: ghcr.io/nama-water
+          ENV: ${{ inputs.environment }}
+        run: |
+          echo "$SSH_KEY" > /tmp/deploy_key && chmod 600 /tmp/deploy_key
+
+          for HOST in ${{ inputs.app_hosts }}; do
+            echo "==> Deploying to $HOST ($ENV)"
+
+            ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no ubuntu@$HOST bash -s << ENDSSH
+              set -euo pipefail
+
+              # Verify API image signature
+              cosign verify \
+                $REGISTRY/nama-tipms-api:$API_TAG \
+                --certificate-identity="https://github.com/${{ github.repository_owner }}/nama-tipms-be/.github/workflows/ci.yml@refs/heads/main" \
+                --certificate-oidc-issuer="https://token.actions.githubusercontent.com" || {
+                  echo "ERROR: Image signature verification failed"
+                  exit 1
+                }
+
+              # Save current tags for rollback
+              echo "$API_TAG" > $APP_DIR/current_api_tag
+              echo "$WEB_TAG" > $APP_DIR/current_web_tag
+
+              # Migrations — app untouched if this fails
+              flyway \
+                -url="jdbc:postgresql://$DB_HOST:5432/tipms" \
+                -user=tipms_app \
+                -password="$DB_PASSWORD" \
+                -locations="filesystem:$APP_DIR/db/migrations" \
+                migrate
+
+              # Write .env
+              cat > $APP_DIR/.env << EOF
+          DB_HOST=$DB_HOST
+          DB_PASSWORD=$DB_PASSWORD
+          JWT_SECRET_KEY=$JWT_SECRET_KEY
+          FCM_SERVER_KEY=$FCM_SERVER_KEY
+          ENVIRONMENT=$ENV
+          LOG_LEVEL=info
+          EOF
+              chmod 600 $APP_DIR/.env
+
+              # Pull and start containers
+              export API_TAG=$API_TAG
+              export WEB_TAG=$WEB_TAG
+              docker compose -f $APP_DIR/docker-compose.yml pull
+              docker compose -f $APP_DIR/docker-compose.yml up -d
+
+              # Health check — 5 × 10s
+              for i in 1 2 3 4 5; do
+                sleep 10
+                docker compose -f $APP_DIR/docker-compose.yml exec -T api \
+                  curl -sf http://localhost:3000/health > /dev/null 2>&1 && {
+                    echo "==> $HOST: deploy succeeded"
+                    exit 0
+                  }
+                echo "  Attempt $i/5..."
+              done
+
+              # Rollback
+              PREV_API=$(cat $APP_DIR/prev_api_tag 2>/dev/null || echo "latest")
+              PREV_WEB=$(cat $APP_DIR/prev_web_tag 2>/dev/null || echo "latest")
+              echo "==> Health check failed — rolling back to api:$PREV_API web:$PREV_WEB"
+              export API_TAG=$PREV_API
+              export WEB_TAG=$PREV_WEB
+              docker compose -f $APP_DIR/docker-compose.yml up -d
+              exit 1
+          ENDSSH
+
+            echo "==> $HOST done"
+          done
+
+          rm -f /tmp/deploy_key
+
+  notify-success:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: WhatsApp deploy alert
+        run: |
+          curl -s -X POST "https://graph.facebook.com/v18.0/${{ secrets.WHATSAPP_CHANNEL_ID }}/messages" \
+            -H "Authorization: Bearer ${{ secrets.WHATSAPP_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"messaging_product\":\"whatsapp\",\"to\":\"${{ secrets.WHATSAPP_CHANNEL_ID }}\",\"type\":\"text\",\"text\":{\"body\":\"Deploy succeeded\nEnv: ${{ inputs.environment }}\nAPI: ${{ inputs.api_tag }}\nWeb: ${{ inputs.web_tag }}\nRun: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}}"
+
+  notify-failure:
+    needs: deploy
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: WhatsApp failure alert
+        run: |
+          curl -s -X POST "https://graph.facebook.com/v18.0/${{ secrets.WHATSAPP_CHANNEL_ID }}/messages" \
+            -H "Authorization: Bearer ${{ secrets.WHATSAPP_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"messaging_product\":\"whatsapp\",\"to\":\"${{ secrets.WHATSAPP_CHANNEL_ID }}\",\"type\":\"text\",\"text\":{\"body\":\"Deploy FAILED\nEnv: ${{ inputs.environment }}\nRun: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}}"

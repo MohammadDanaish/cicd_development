@@ -1,0 +1,138 @@
+name: Template — CI Node.js
+
+on:
+  workflow_call:
+    inputs:
+      image_name:
+        required: true
+        type: string
+        description: 'GHCR image name e.g. nama-tipms-api'
+      dockerfile:
+        required: true
+        type: string
+        description: 'Path to Dockerfile e.g. Dockerfile.api'
+      run_integration_tests:
+        type: boolean
+        default: false
+        description: 'Run Jest + Postgres integration tests'
+      node_version:
+        type: string
+        default: '20'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node_version }}
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npx prettier --check .
+      - uses: gitleaks/gitleaks-action@v2
+      - run: npm audit --audit-level=high
+      - uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+
+  test:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node_version }}
+          cache: npm
+      - run: npm ci
+      - run: npx vitest run --coverage
+
+  integration-test:
+    needs: validate
+    if: ${{ inputs.run_integration_tests }}
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_DB: tipms_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node_version }}
+          cache: npm
+      - run: npm ci
+      - run: npx jest --coverage
+      - name: Integration tests
+        env:
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_PASSWORD: test_password
+        run: npm run test:integration
+
+  sast:
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+      - uses: github/codeql-action/analyze@v3
+
+  build:
+    needs: [test, integration-test, sast]
+    if: ${{ !failure() && !cancelled() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ${{ inputs.dockerfile }}
+          push: true
+          tags: ghcr.io/nama-water/${{ inputs.image_name }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  image-scan:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ghcr.io/nama-water/${{ inputs.image_name }}:${{ github.sha }}
+          severity: CRITICAL,HIGH
+          exit-code: '1'
+      - uses: snyk/actions/docker@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          image: ghcr.io/nama-water/${{ inputs.image_name }}:${{ github.sha }}
+          args: --severity-threshold=high
